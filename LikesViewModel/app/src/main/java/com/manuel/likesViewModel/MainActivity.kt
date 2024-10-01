@@ -9,23 +9,25 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
-import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.manuel.likesViewModel.ui.theme.LikesViewModelTheme
 
 class MainActivity : ComponentActivity() {
@@ -34,7 +36,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LikesViewModelTheme {
-               MainScreen(MyViewModel(), this)
+                MainScreen(MyViewModel(), this)
             }
         }
     }
@@ -42,9 +44,28 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(viewModel: MyViewModel, mainActivity: MainActivity) {
-    Scaffold (
-        topBar = { CustomTopBar(viewModel) },
-        content = {padding -> CustomContent(padding, viewModel, mainActivity) }
+    Scaffold(
+        topBar = { CustomTopBar() },
+        content = { padding -> CustomContent(padding, viewModel, mainActivity) },
+        modifier = Modifier.padding(0.dp, 25.dp)
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CustomTopBar() {
+    TopAppBar(
+        title = {
+            Text(
+                text = "Juego de Adivinanza",
+            )
+        },
+        colors = topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.background
+        ),
+        windowInsets = WindowInsets(2.dp)
+
     )
 }
 
@@ -88,6 +109,7 @@ fun ColumnRow(viewModel: MyViewModel, mainActivity: MainActivity) {
 
 @Composable
 fun CustomContent(padding: PaddingValues, viewModel: MyViewModel, mainActivity: MainActivity) {
+    CustomTopBar2(viewModel)
     Column(
         // Modificadores de estilo de la columna
         modifier = Modifier
@@ -114,10 +136,12 @@ fun ColumnNumber(viewModel: MyViewModel) {
 }
 
 @Composable
-fun CustomTopBar(viewModel: MyViewModel) {
+fun CustomTopBar2(viewModel: MyViewModel) {
     val intentos by viewModel.intentos.observeAsState(0)
     Row(
-        modifier = Modifier.fillMaxWidth().padding(20.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(20.dp, 22.dp),
         horizontalArrangement = Arrangement.End,
         content = {
             Text(

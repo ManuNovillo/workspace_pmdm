@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlin.random.Random
 
-
 class MyViewModel : ViewModel() {
     private val _num = MutableLiveData(50)
     val num: LiveData<Int> = _num
@@ -32,6 +31,4 @@ class MyViewModel : ViewModel() {
         }
         return "Mayor"
     }
-
-
 }
