@@ -8,7 +8,6 @@ data class OpenWeather(
 )
 
 data class Dia(
-
     @SerializedName("main")
     var temp: Temperatura,
     var weather: List<Cielo>,

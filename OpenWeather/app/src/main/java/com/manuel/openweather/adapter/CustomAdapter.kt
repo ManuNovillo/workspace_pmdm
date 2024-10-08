@@ -57,8 +57,8 @@ class CustomAdapter(val context: Context,
             //....
 
             // foto de internet a traves de Picasso
-            Picasso.get().load("https://openweathermap.org/img/wn/${dataItem.weather.get(0).icon}@4x.png").into(cieloIV)
-            Log.d("manu","https://openweathermap.org/img/wn/${dataItem.weather.get(0).icon}@4x.png")
+            Picasso.get().load("https://openweathermap.org/img/wn/04n@2x.png").into(cieloIV)
+            //Log.d("manu","https://openweathermap.org/img/wn/${dataItem.weather.get(0).icon}@4x.png")
             itemView.tag = dataItem
 
         }
