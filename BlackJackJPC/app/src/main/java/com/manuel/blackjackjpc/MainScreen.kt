@@ -1,6 +1,7 @@
 package com.manuel.blackjackjpc
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +24,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -32,13 +35,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.manuel.blackjackjpc.model.Carta
-import com.manuel.blackjackjpc.model.Palo
-
 
 @Composable
 fun MainScreen(viewModel: MainViewModel) {
     Scaffold(
-        topBar = { CustomTopBar() },
+        topBar = { CustomTopBar(viewModel) },
         content = { padding ->
             CustomContent(padding, viewModel)
         }
@@ -48,9 +49,12 @@ fun MainScreen(viewModel: MainViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomTopBar() {
+fun CustomTopBar(viewModel: MainViewModel) {
+    val puntos by viewModel.puntosJugadores.observeAsState(emptyList())
     TopAppBar(
-        title = { Text(text = "Black Jack") },
+        title = {
+            Text(text = "Black Jack P1: ${puntos[0]}  - P2: ${puntos[1]}")
+        },
         colors = topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.background
@@ -87,7 +91,7 @@ fun MainContent(viewModel: MainViewModel) {
     val cartas = viewModel.cartasJugadas
     FilaCartas(viewModel, cartas)
     Mazo(viewModel)
-    Boton()
+    Boton(viewModel)
 }
 
 @Composable
@@ -107,13 +111,18 @@ fun FilaCartas(viewModel: MainViewModel, cartas: List<Carta>) {
 
 @Composable
 fun CartaCard(carta: Carta) {
-    Log.d("MANU", "CartaCard")
     val context = LocalContext.current
-    val id = context.resources.getIdentifier("${carta.palo.toString().lowercase()}${carta.numero}", "drawable", context.packageName)
+    val id = context.resources.getIdentifier(
+        "${carta.palo.toString().lowercase()}${carta.numero}",
+        "drawable",
+        context.packageName
+    )
     Image(
         painter = painterResource(id = id),
         contentDescription = "Carta",
-        modifier = Modifier.width(100.dp).height(180.dp),
+        modifier = Modifier
+            .width(100.dp)
+            .height(180.dp),
     )
 }
 
@@ -126,27 +135,29 @@ fun Mazo(viewModel: MainViewModel) {
         Image(
             painter = painterResource(id = R.drawable.mazo),
             contentDescription = "Mazo",
-            modifier = Modifier.width(100.dp).height(180.dp).clickable {
-                onClick(viewModel)
-            }
+            modifier = Modifier
+                .width(100.dp)
+                .height(180.dp)
+                .clickable {
+                    onClick(viewModel)
+                }
         )
     }
 }
 
 fun onClick(viewModel: MainViewModel) {
-    Log.d("MANU", "KSUDFHSKDHFSHSIFHSF")
     viewModel.sacaCarta()
 }
 
 @Composable
-fun Boton() {
+fun Boton(viewModel: MainViewModel) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
         Button(
             onClick = {
-
+                viewModel.stop()
             },
             contentPadding = PaddingValues(16.dp)
         ) {
@@ -157,11 +168,3 @@ fun Boton() {
         }
     }
 }
-
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    MainScreen(MainViewModel())
-}
-
