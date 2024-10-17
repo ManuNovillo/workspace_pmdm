@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(mainActivity: MainActivity) : ViewModel() {
 
-    private val mainActivity = mainActivity
+    val mainActivity by lazy { mainActivity }
     private var _primerNum = MutableLiveData("")
     val primerNum: LiveData<String> = _primerNum
     private var _segundoNum = MutableLiveData("")
@@ -25,14 +25,21 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     private var _backgroundColor = MutableLiveData(Color.White)
     val backgroundColor: LiveData<Color> = _backgroundColor
     private var primero = true
+    private var _openDialog = MutableLiveData(false)
+    val openDialog: LiveData<Boolean> = _openDialog
+    private var _time = MutableLiveData("")
+    val time: LiveData<String> = _time
+    private var inicio: Long
+    private var wait: Boolean
 
     init {
         startGame()
+        inicio = System.currentTimeMillis()
+        wait = false
     }
 
     private fun startGame() {
         newNumber()
-
     }
 
     private fun newNumber() {
@@ -44,6 +51,7 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
 
 
     fun onButtonClick(n: Int) {
+        if (wait) return
         if (primero) {
             _primerNum.value = n.toString()
             primero = false
@@ -63,11 +71,33 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
             _backgroundColor.value = Color.Red
             _intentos.value = intentos.value?.plus(1)
         }
-        GlobalScope.launch {
-            SystemClock.sleep(1000)
-            launch(Main) {
-                newNumber()
+        if (intentos.value == 5) gameOver()
+        else {
+            GlobalScope.launch {
+                wait = true
+                SystemClock.sleep(1000)
+                launch(Main) {
+                    newNumber()
+                    wait = false
+                }
             }
         }
+    }
+
+    private fun gameOver() {
+        _openDialog.value = true
+        _time.value = ((System.currentTimeMillis() - inicio) / 1000).toString()
+    }
+
+    private fun hideDialog() {
+        _openDialog.value = false
+    }
+
+    fun restartGame() {
+        hideDialog()
+        _aciertos.value = 0
+        _intentos.value = 0
+        startGame()
+        inicio = System.currentTimeMillis()
     }
 }

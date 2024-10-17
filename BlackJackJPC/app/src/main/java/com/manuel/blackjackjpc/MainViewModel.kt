@@ -18,7 +18,7 @@ class MainViewModel(activity: MainActivity) : ViewModel() {
     private val _cartasJugadas = mutableStateListOf<Carta>()
     val cartasJugadas: SnapshotStateList<Carta> = _cartasJugadas
     var posMazo = 0
-    private val _puntosJugadores = MutableLiveData<List<Int>>(emptyList())
+    private val _puntosJugadores = MutableLiveData<List<Int>>(listOf(0, 0))
     val puntosJugadores: LiveData<List<Int>> = _puntosJugadores
     private var jugador = 0
     private val _msg = MutableLiveData<String>()
@@ -50,12 +50,14 @@ class MainViewModel(activity: MainActivity) : ViewModel() {
         Log.d("manu", "${_puntosJugadores.value!![0]}")
     }
 
-    fun sumaPuntos(num: Int) {
+    private fun sumaPuntos(num: Int) {
         var aux = ArrayList(_puntosJugadores.value!!)
         aux[jugador] += if (num > 7) 10 else num
         //Log.d("manu", "Sumado ${_puntosJugadores.value!![jugador]}")
-        _puntosJugadores.value = ArrayList(aux)
-        if (_puntosJugadores.value!![jugador] > 21) nextPlayer()
+
+        if (aux[jugador] <= 21) {
+            _puntosJugadores.value = ArrayList(aux)
+        } else nextPlayer()
 
     }
 

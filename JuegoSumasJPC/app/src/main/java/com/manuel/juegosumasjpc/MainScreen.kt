@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -19,6 +20,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -50,6 +52,8 @@ fun CustomTopBar() {
 
 @Composable
 fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
+    AlertDialogSample(viewModel)
+
     val primerNum by viewModel.primerNum.observeAsState("")
     val segundoNum by viewModel.segundoNum.observeAsState("")
     val randomNum by viewModel.randomNum.observeAsState(0)
@@ -162,6 +166,52 @@ fun Boton(n: Int, viewModel: MainViewModel) {
             fontSize = 50.sp,
             fontWeight = FontWeight.Bold
         )
+    }
+}
+
+@Composable
+fun AlertDialogSample(viewModel: MainViewModel) {
+    val time by viewModel.time.observeAsState("")
+    val intentos by viewModel.intentos.observeAsState(0)
+    val aciertos by viewModel.aciertos.observeAsState(0)
+    val context = LocalContext.current
+
+    MaterialTheme {
+        Column {
+            val openDialog by viewModel.openDialog.observeAsState(false)
+            Button(onClick = {
+
+            })
+            { Text("Click me") }
+            if (openDialog) {
+                AlertDialog(
+                    onDismissRequest = {  // Si pulsamos fuera
+
+                    },
+                    title = {
+                        Text(text = "Has acabado")
+                    },
+                    text = {
+                        Text("$aciertos/$intentos en $time segundos")
+                    },
+                    confirmButton = {
+                        Button(
+                            onClick = { viewModel.restartGame() })
+                        {
+                            Text("Continuar")
+                        }
+
+                    },
+                    dismissButton = {
+                        Button(
+                            onClick = { viewModel.mainActivity.finish() })
+                        {
+                            Text("Salir")
+                        }
+                    }
+                )
+            }
+        }
     }
 }
 
