@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<map>
+<string name="1">{&quot;id&quot;:&quot;1&quot;,&quot;nombre&quot;:&quot;Actores&quot;}</string>
+<string name="2">{&quot;id&quot;:&quot;2&quot;,&quot;nombre&quot;:&quot;Cantantes&quot;}</string>
+<string name="3">{&quot;id&quot;:&quot;3&quot;,&quot;nombre&quot;:&quot;Deportistas&quot;}</string>
+<string name="4">{&quot;id&quot;:&quot;4&quot;,&quot;nombre&quot;:&quot;Escritores&quot;}</string>
+<string name="5">{&quot;id&quot;:&quot;5&quot;,&quot;nombre&quot;:&quot;Políticos&quot;}</string>
+<string name="6">{&quot;id&quot;:&quot;6&quot;,&quot;nombre&quot;:&quot;Directores del cine&quot;}</string>
+<string name="7">{&quot;id&quot;:&quot;7&quot;,&quot;nombre&quot;:&quot;Empresarios&quot;}</string>
+<string name="8">{&quot;id&quot;:&quot;8&quot;,&quot;nombre&quot;:&quot;Pintores&quot;}</string>
+<string name="9">{&quot;id&quot;:&quot;9&quot;,&quot;nombre&quot;:&quot;Científicos&quot;}</string>
+</map>
