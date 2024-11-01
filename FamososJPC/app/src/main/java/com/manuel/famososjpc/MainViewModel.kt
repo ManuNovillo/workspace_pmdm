@@ -19,7 +19,9 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     val personajesShow: LiveData<Array<Person>> = _personajesShow
     private val ids = ArrayList<String>()
     private val nombres = ArrayList<String>()
-    val colores =
+    val coloresFotos =
+        mutableStateListOf(Color.White, Color.White, Color.White, Color.White, Color.White)
+    val coloresNombres =
         mutableStateListOf(Color.White, Color.White, Color.White, Color.White, Color.White)
     private var pressedFoto = -1
     private var pressedName = -1
@@ -74,12 +76,14 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
 //                correcto = true
 //            }
 //        }
-//        if (correcto) colores[namePressed] = Color.Green
-//        else colores[namePressed] = Color.Red
+//        if (correcto) coloresFotos[namePressed] = Color.Green
+//        else coloresFotos[namePressed] = Color.Red
         if (personajesGame[fotoPressed].nombre == nombres[namePressed]) {
-            colores[namePressed] = Color.Green
+            coloresFotos[fotoPressed] = Color.Green
+            coloresNombres[namePressed] = Color.Green
         } else {
-            colores[namePressed] = Color.Red
+            coloresFotos[fotoPressed] = Color.Red
+            coloresNombres[namePressed] = Color.Red
         }
 
         pressedFoto = -1

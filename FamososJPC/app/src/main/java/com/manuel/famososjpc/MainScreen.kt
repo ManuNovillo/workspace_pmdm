@@ -70,7 +70,8 @@ fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
 @Composable
 fun RowFamosos(i: Int, viewModel: MainViewModel) {
     val personajesShow by viewModel.personajesShow.observeAsState()
-    val colores = viewModel.colores
+    val coloresFotos = viewModel.coloresFotos
+    val coloresNombres = viewModel.coloresNombres
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -78,23 +79,36 @@ fun RowFamosos(i: Int, viewModel: MainViewModel) {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Image(
-            painter = painterResource(id = viewModel.mainActivity.resources.getIdentifier(
-                "p${personajesShow!![i].id}", "drawable", viewModel.mainActivity.packageName)),
-            contentDescription = "Famoso",
+        Column(
             modifier = Modifier
-                .background(colores[i])
-                .height(100.dp)
-                .clickable {
-                    viewModel.clickFoto(i)
-                }
-        )
-        Text(
-            text = personajesShow!![i].nombre,
-            Modifier
-                .background(colores[i])
-                .clickable { viewModel.clickName(i) },
-        )
+                .background(coloresFotos[i])
+                .padding(10.dp),
+            horizontalAlignment = Alignment.Start,
+        ) {
+            Image(
+                painter = painterResource(id = viewModel.mainActivity.resources.getIdentifier(
+                    "p${personajesShow!![i].id}", "drawable", viewModel.mainActivity.packageName)),
+                contentDescription = "Famoso",
+                modifier = Modifier
+                    .height(100.dp)
+                    .clickable {
+                        viewModel.clickFoto(i)
+                    }
+            )
+        }
+        Column(
+            modifier = Modifier
+                .background(coloresNombres[i])
+                .padding(10.dp),
+            horizontalAlignment = Alignment.Start
+        ) {
+            Text(
+                text = personajesShow!![i].nombre,
+                Modifier
+                    .clickable { viewModel.clickName(i) },
+            )
+        }
+
     }
 }
 
