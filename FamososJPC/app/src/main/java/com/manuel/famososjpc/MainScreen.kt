@@ -1,6 +1,8 @@
 package com.manuel.famososjpc
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,7 +25,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import java.util.ArrayList
 
 
 @Composable
@@ -59,17 +60,17 @@ fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
         verticalArrangement = Arrangement.Center
     )
     {
-        val numeroFamosos = 5 // Cuántos famosos quiero sacar
-        for (i in 0 until numeroFamosos) {
+        for (i in 0 until viewModel.numeroFamosos) {
             RowFamosos(i, viewModel)
         }
     }
 }
 
+@SuppressLint("ResourceType")
 @Composable
 fun RowFamosos(i: Int, viewModel: MainViewModel) {
-    val fotos by viewModel.fotos.observeAsState()
-    val nombres by viewModel.nombres.observeAsState()
+    val personajesShow by viewModel.personajesShow.observeAsState()
+    val colores = viewModel.colores
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -78,16 +79,21 @@ fun RowFamosos(i: Int, viewModel: MainViewModel) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            painter = painterResource(id = fotos?.get(i)),
+            painter = painterResource(id = viewModel.mainActivity.resources.getIdentifier(
+                "p${personajesShow!![i].id}", "drawable", viewModel.mainActivity.packageName)),
             contentDescription = "Famoso",
             modifier = Modifier
+                .background(colores[i])
                 .height(100.dp)
                 .clickable {
-                    viewModel.clickItem(i)
+                    viewModel.clickFoto(i)
                 }
         )
         Text(
-            text = nombres[i],
+            text = personajesShow!![i].nombre,
+            Modifier
+                .background(colores[i])
+                .clickable { viewModel.clickName(i) },
         )
     }
 }
