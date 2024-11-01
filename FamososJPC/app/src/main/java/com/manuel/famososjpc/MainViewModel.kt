@@ -14,7 +14,7 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     val mainActivity by lazy { mainActivity }
     val numeroFamosos = 5
     private lateinit var personajes: ArrayList<Person>
-    var personajesGame = ArrayList<Person>()
+    private var personajesGame = ArrayList<Person>()
     private var _personajesShow = MutableLiveData(Array(5) { Person() })
     val personajesShow: LiveData<Array<Person>> = _personajesShow
     private val ids = ArrayList<String>()
@@ -38,7 +38,7 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
             ids.add(person.id)
         }
         nombres.shuffle()
-        ids.shuffle()
+//        ids.shuffle()
         for (i in 0 until numeroFamosos) {
             _personajesShow.value!![i].nombre = nombres[i]
             _personajesShow.value!![i].id = ids[i]
@@ -48,8 +48,8 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     private fun getPersonajes() {
         personajes = ArrayList()
         val personajesAll = mainActivity.getSharedPreferences("person", MODE_PRIVATE).all
-        for ((key, value) in personajesAll) {
-            val jsonPerson = value.toString()
+        for (entry in personajesAll) {
+            val jsonPerson = entry.value.toString()
             val person = Gson().fromJson(jsonPerson, Person::class.java)
             personajes.add(person)
         }
@@ -64,18 +64,24 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     }
 
     private fun check(fotoPressed: Int, namePressed: Int) {
-        var correcto = false
-        val clickedPerson = Person(ids[fotoPressed], nombres[namePressed])
-
-        for (person in personajesGame) {
-            Log.d("COJONES", "check: $person")
-            Log.d("COJONES", "check: $clickedPerson")
-            if (person == clickedPerson) {
-                correcto = true
-            }
+//        var correcto = false
+//        val clickedPerson = Person(ids[fotoPressed], nombres[namePressed])
+//
+//        for (person in personajesGame) {
+//            Log.d("COJONES", "check: $person")
+//            Log.d("COJONES", "check: $clickedPerson")
+//            if (person == clickedPerson) {
+//                correcto = true
+//            }
+//        }
+//        if (correcto) colores[namePressed] = Color.Green
+//        else colores[namePressed] = Color.Red
+        if (personajesGame[fotoPressed].nombre == nombres[namePressed]) {
+            colores[namePressed] = Color.Green
+        } else {
+            colores[namePressed] = Color.Red
         }
-        if (correcto) colores[namePressed] = Color.Green
-        else colores[namePressed] = Color.Red
+
         pressedFoto = -1
         pressedName = -1
     }
