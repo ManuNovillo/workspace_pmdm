@@ -58,7 +58,6 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     }
 
     fun clickName(i: Int) {
-        Log.d("COJONES", "clickName: $i")
         if (pressedName != -1) return
         pressedName = i
         if (pressedFoto == -1) return

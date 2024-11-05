@@ -108,7 +108,6 @@ fun RowFamosos(i: Int, viewModel: MainViewModel) {
                     .clickable { viewModel.clickName(i) },
             )
         }
-
     }
 }
 
