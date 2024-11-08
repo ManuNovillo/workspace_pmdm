@@ -19,16 +19,25 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     val personajesShow: LiveData<Array<Person>> = _personajesShow
     private val ids = ArrayList<String>()
     private val nombres = ArrayList<String>()
+    private var errorAnterior = mutableListOf<Int>()
     val coloresFotos =
-        mutableStateListOf(Color.White, Color.White, Color.White, Color.White, Color.White)
+        mutableStateListOf<Color>()
     val coloresNombres =
-        mutableStateListOf(Color.White, Color.White, Color.White, Color.White, Color.White)
+        mutableStateListOf<Color>()
     private var pressedFoto = -1
     private var pressedName = -1
 
     init {
         getPersonajes()
         startGame()
+        fillColors()
+    }
+
+    private fun fillColors() {
+        for (i in 0 until numeroFamosos) {
+            coloresFotos.add(Color.Transparent)
+            coloresNombres.add(Color.Transparent)
+        }
     }
 
     private fun startGame() {
@@ -58,7 +67,6 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     }
 
     fun clickName(i: Int) {
-        if (pressedName != -1) return
         pressedName = i
         if (pressedFoto == -1) return
         check(pressedFoto, pressedName)
@@ -77,21 +85,31 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
 //        }
 //        if (correcto) coloresFotos[namePressed] = Color.Green
 //        else coloresFotos[namePressed] = Color.Red
+        if (errorAnterior.isNotEmpty()) {
+            coloresFotos[errorAnterior[0]] = Color.Transparent
+            coloresNombres[errorAnterior[1]] = Color.Transparent
+        }
         if (personajesGame[fotoPressed].nombre == nombres[namePressed]) {
             coloresFotos[fotoPressed] = Color.Green
             coloresNombres[namePressed] = Color.Green
+            resetErrorAnterior()
         } else {
             coloresFotos[fotoPressed] = Color.Red
             coloresNombres[namePressed] = Color.Red
+            resetErrorAnterior()
+            errorAnterior.add(fotoPressed)
+            errorAnterior.add(namePressed)
         }
 
         pressedFoto = -1
         pressedName = -1
     }
 
+    private fun resetErrorAnterior() {
+        errorAnterior.clear()
+    }
+
     fun clickFoto(i: Int) {
-        Log.d("COJONES", "clickFoto $i")
-        if (pressedFoto != -1) return
         pressedFoto = i
         if (pressedName == -1) return
         check(pressedFoto, pressedName)
