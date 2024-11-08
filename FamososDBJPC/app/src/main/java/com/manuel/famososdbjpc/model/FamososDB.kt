@@ -25,7 +25,7 @@ abstract class FamososDB: RoomDatabase() {
             synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    FamososDB::class.java,   "MetroDB.db"
+                    FamososDB::class.java,   "famosos.db"
                 ).build()
                 INSTANCE = instance
                 return instance

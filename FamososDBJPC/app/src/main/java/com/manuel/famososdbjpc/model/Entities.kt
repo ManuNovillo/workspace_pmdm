@@ -11,18 +11,18 @@ import androidx.room.PrimaryKey
 data class Famoso(
     @PrimaryKey
     @ColumnInfo(name = "p_id")
-    var id: Int?,
+    var id: Int,
     @ColumnInfo(name = "p_name_es")
-    var nombre: String?,
+    var nombre: String,
     @ColumnInfo(name = "c_id")
-    var categoriaId: Int?
+    var categoriaId: Int
 )
 
 @Entity(tableName = "Categoria")
 data class Categoria(
     @PrimaryKey
     @ColumnInfo(name = "c_id")
-    var id: Int?,
+    var id: Int,
     @ColumnInfo(name = "c_name_es")
-    var nombre: String?
+    var nombre: String
 )
