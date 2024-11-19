@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MasterDetailJPCTheme {
-                AppNavigation()
+                AppNavigation(this)
             }
         }
     }

@@ -2,8 +2,9 @@ package com.manuel.masterdetailjpc.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.manuel.masterdetailjpc.MainActivity
 
-class MainViewModel : ViewModel() {
+class MainViewModel(mainActivity: MainActivity) : ViewModel() {
 
     val name = mutableStateOf("")
 

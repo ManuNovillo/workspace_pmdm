@@ -1,26 +1,26 @@
 package net.azarquiel.metroroomjpc
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import net.azarquiel.alltricks.util.Util
-import net.azarquiel.metroroomjpc.model.Linea
+import net.azarquiel.metroroomjpc.model.LineaWithEstaciones
 import net.azarquiel.metroroomjpc.viewmodel.LineaViewModel
 
 class MainViewModel(mainActivity: MainActivity): ViewModel()  {
-    private val _lineas: MutableLiveData<List<Linea>> = MutableLiveData()
-    val lineas: LiveData<List<Linea>> = _lineas
+    val lineas = mutableStateListOf<LineaWithEstaciones>()
+    val linea = mutableStateOf<LineaWithEstaciones?>(null)
+
     init {
         val lineaViewModel = ViewModelProvider(mainActivity)[LineaViewModel::class.java]
         Util.inyecta(mainActivity, "MetroDB.db")
-        lineaViewModel.getAllLineas().observe(mainActivity) { lineas ->
-            lineas.forEach{
-                Log.d("paco", it.toString())
-            }
-            _lineas.value = lineas
+        lineaViewModel.getAllLineas().observe(mainActivity) { lineasData ->
+            lineas.addAll(lineasData)
         }
+    }
+
+    fun setLinea(lineaWithEstaciones: LineaWithEstaciones) {
+        linea.value = lineaWithEstaciones
     }
 }
