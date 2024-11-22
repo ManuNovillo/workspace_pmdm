@@ -9,7 +9,6 @@ import com.manuel.masterdetailjpc.screens.DetailScreen
 import com.manuel.masterdetailjpc.screens.MasterScreen
 import com.manuel.masterdetailjpc.viewmodel.MainViewModel
 
-
 @Composable
 fun AppNavigation(mainActivity: MainActivity) {
     val navController = rememberNavController()
