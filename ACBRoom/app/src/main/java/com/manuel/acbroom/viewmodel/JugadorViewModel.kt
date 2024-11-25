@@ -18,4 +18,6 @@ class JugadorViewModel(application: Application) : AndroidViewModel(application)
             launch(Dispatchers.Main) {}
         }
     }
+
+    fun getAllJugadores() = repository.getAllJugadores()
 }

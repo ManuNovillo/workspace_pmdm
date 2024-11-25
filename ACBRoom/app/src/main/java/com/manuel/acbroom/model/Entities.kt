@@ -25,7 +25,6 @@ data class Equipo(
         )
     ]
 )
-
 data class Jugador(
     @PrimaryKey
     var id: Int = 0,
@@ -46,4 +45,13 @@ data class EquipoConJugadores(
         entityColumn = "equipo"
     )
     val jugadores: List<Jugador>
+)
+
+data class JugadorConEquipo(
+    @Embedded val jugador: Jugador,
+    @Relation(
+        parentColumn = "equipo",
+        entityColumn = "id"
+    )
+    val equipo: Equipo
 )

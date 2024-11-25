@@ -1,22 +1,22 @@
 package com.manuel.acbroom.viewmodel
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.manuel.acbroom.model.EquipoConJugadores
+import com.manuel.acbroom.model.JugadorConEquipo
 import com.manuel.acbroom.util.Util
 import com.manuel.acbroom.view.MainActivity
 
 class MainViewModel(mainActivity: MainActivity) : ViewModel() {
 
-    val equipos = mutableStateListOf<EquipoConJugadores>()
+    val jugadoresConEquipo = mutableStateListOf<JugadorConEquipo>()
 
     init {
         Util.inyecta(mainActivity, "acb.sqlite")
-        val equipoViewModel = ViewModelProvider(mainActivity)[EquipoViewModel::class]
-        equipoViewModel.getAllEquipos().observe(mainActivity) {
-            equipos.addAll(it)
+        val jugadorViewModel = ViewModelProvider(mainActivity)[JugadorViewModel::class]
+        jugadorViewModel.getAllJugadores().observe(mainActivity) { jugadoresDatos ->
+            jugadoresConEquipo.clear()
+            jugadoresConEquipo.addAll(jugadoresDatos)
         }
 
     }

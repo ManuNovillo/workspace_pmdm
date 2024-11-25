@@ -10,9 +10,9 @@ class JugadorRepository(application: Application) {
 
     val daoJugador = AcbDB.getDatabase(application).daoJugador()
 
-    fun update(jugador: Jugador) {
-        daoJugador.update(jugador)
-    }
+    fun update(jugador: Jugador) = daoJugador.update(jugador)
+    fun getAllJugadores() = daoJugador.getAllJugadores()
+
 }
 
 class EquipoRepository(application: Application) {

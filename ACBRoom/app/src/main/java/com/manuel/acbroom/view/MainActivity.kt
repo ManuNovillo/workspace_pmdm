@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.manuel.acbroom.navigation.AppNavigation
+import com.manuel.acbroom.screens.MainScreen
 import com.manuel.acbroom.ui.theme.ACBRoomTheme
 import com.manuel.acbroom.viewmodel.MainViewModel
 
@@ -13,7 +15,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ACBRoomTheme {
-                MainScreen(MainViewModel(this))
+                AppNavigation(this)
             }
         }
     }
