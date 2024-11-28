@@ -1,4 +1,4 @@
-package com.manuel.pueblosbonitos.view.screens
+package com.manuel.pueblosbonitos.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,14 +22,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.manuel.pueblosbonitos.R
 import com.manuel.pueblosbonitos.model.entities.Comunidad
-import com.manuel.pueblosbonitos.ui.theme.AzulClaroFondo
-import com.manuel.pueblosbonitos.ui.theme.MoradoFondo
 import com.manuel.pueblosbonitos.viewmodel.MainViewModel
 
 @Composable
@@ -46,7 +45,7 @@ fun MainTopBar() {
     TopAppBar(
         title = { Text(text = "Comunidades") },
         colors = topAppBarColors(
-            containerColor = MoradoFondo,
+            containerColor = colorResource(R.color.purple_700),
             titleContentColor = Color.White
         )
     )
@@ -63,7 +62,7 @@ fun MainContent(
         modifier = Modifier
             .fillMaxSize()
             .padding(padding)
-            .background(MoradoFondo)
+            .background(colorResource(R.color.purple_700))
     ) {
         LazyColumn {
             items(comunidades) { comunidad ->
@@ -84,7 +83,7 @@ fun MainCardComunidad(
             .padding(2.dp)
             .fillMaxWidth(),
         colors = cardColors(
-            containerColor = AzulClaroFondo
+            containerColor = colorResource(R.color.azulClaroFondo)
         ),
         onClick = {
             viewModel.prepararPueblosScreen(comunidad)

@@ -21,6 +21,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,22 +34,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.manuel.acbroom.R
 import com.manuel.acbroom.viewmodel.MainViewModel
 
 
 @Composable
-fun JugadorScreen(viewModel: MainViewModel) {
+fun JugadorScreen(viewModel: MainViewModel, navController: NavHostController) {
     Scaffold(
-        content = { padding -> JugadorContent(padding, viewModel) }
-
+        content = { padding -> JugadorContent(padding, viewModel, navController) }
     )
 }
 
 @Composable
-fun JugadorContent(padding: PaddingValues, viewModel: MainViewModel) {
-    val likes = viewModel.jugadorConEquipo.value!!.jugador.likes
+fun JugadorContent(padding: PaddingValues, viewModel: MainViewModel, navController: NavHostController) {
+    var likes by remember { mutableIntStateOf(viewModel.jugadorConEquipo.value!!.jugador.likes) }
     val jugadorConEquipo by viewModel.jugadorConEquipo
     Column(
         modifier = Modifier
@@ -78,12 +81,15 @@ fun JugadorContent(padding: PaddingValues, viewModel: MainViewModel) {
                     modifier = Modifier
                         .padding(end = 8.dp, top = 8.dp)
                         .size(40.dp)
+                        .clickable {
+                            navController.navigate("WebJugadorScreen")
+                        }
                 )
             }
         }
         Text(
             text = jugadorConEquipo!!.jugador.nombre,
-            fontSize = 30.sp,
+            fontSize = 40.sp,
             modifier = Modifier
                 .fillMaxWidth()
                 .background(colorResource(R.color.azuloscuro))
@@ -91,68 +97,75 @@ fun JugadorContent(padding: PaddingValues, viewModel: MainViewModel) {
             color = colorResource(R.color.azulclaro),
             textAlign = TextAlign.Center
         )
-        Row(
+        Column(
             modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(
-                text = jugadorConEquipo!!.equipo.nombre,
-                fontSize = 20.sp,
-                modifier = Modifier
-                    .padding(8.dp)
-            )
-            Icon(
-                imageVector = Icons.Filled.Info,
-                contentDescription = "Ver página de jugador",
-                modifier = Modifier
-                    .size(40.dp)
-            )
-        }
-        Text(
-            text = jugadorConEquipo!!.jugador.pais,
-            fontSize = 20.sp,
-            modifier = Modifier
-                .fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Spacer(
-                modifier = Modifier
-                    .size(40.dp)
-            )
-            Text(
-                text = "${jugadorConEquipo!!.jugador.edad} años - ${jugadorConEquipo!!.jugador.estatura} m",
-                textAlign = TextAlign.Center,
-            )
             Row(
-                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .padding(end = 8.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
             ) {
+                Text(
+                    text = jugadorConEquipo!!.equipo.nombre,
+                    fontSize = 30.sp,
+                    modifier = Modifier
+                        .padding(8.dp)
+                )
                 Icon(
-                    imageVector = Icons.Filled.ThumbUp,
-                    contentDescription = "Numero likes",
+                    imageVector = Icons.Filled.Info,
+                    contentDescription = "Ver página de jugador",
                     modifier = Modifier
                         .size(40.dp)
-                        .padding(end = 10.dp)
-                        .clickable {
-                            viewModel.updateLikes(jugadorConEquipo!!.jugador)
-                        }
+                )
+            }
+            Text(
+                text = jugadorConEquipo!!.jugador.pais,
+                fontSize = 30.sp,
+                modifier = Modifier
+                    .fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Spacer(
+                    modifier = Modifier
+                        .size(60.dp)
                 )
                 Text(
-                    text = jugadorConEquipo!!.jugador.likes.toString(),
+                    text = "${jugadorConEquipo!!.jugador.edad} años - ${jugadorConEquipo!!.jugador.estatura} m",
                     textAlign = TextAlign.Center,
                     fontSize = 20.sp
                 )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.ThumbUp,
+                        contentDescription = "Numero likes",
+                        modifier = Modifier
+                            .size(60.dp)
+                            .padding(end = 10.dp)
+                            .clickable {
+                                viewModel.updateLikes(jugadorConEquipo!!.jugador)
+                                likes++
+                            }
+                    )
+                    Text(
+                        text = likes.toString(),
+                        textAlign = TextAlign.Center,
+                        fontSize = 30.sp
+                    )
+                }
             }
-
         }
     }
 }

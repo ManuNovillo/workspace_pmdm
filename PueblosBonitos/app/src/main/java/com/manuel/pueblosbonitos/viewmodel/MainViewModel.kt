@@ -12,6 +12,7 @@ import com.manuel.pueblosbonitos.view.MainActivity
 
 class MainViewModel(mainActivity: MainActivity) : ViewModel() {
 
+    val showFilter = mutableStateOf(false)
     val mainActivity by lazy { mainActivity }
     val comunidades = mutableStateListOf<Comunidad>()
     val pueblosConProvincia = mutableStateListOf<PuebloConProvincia>()
@@ -40,6 +41,7 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
 
     fun prepararPuebloDetailScreen(puebloConProvincia: PuebloConProvincia) {
         esFavorito.value = puebloConProvincia.pueblo.fav == 1
+        showFilter.value = false
         this.puebloDetail.value = puebloConProvincia
     }
 
@@ -52,5 +54,9 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
         esFavorito.value = pueblo.fav == 1
         val puebloViewModel = ViewModelProvider(mainActivity)[PuebloViewModel::class.java]
         puebloViewModel.updatePueblo(pueblo)
+    }
+
+    fun toggleFilter() {
+        showFilter.value = !showFilter.value
     }
 }

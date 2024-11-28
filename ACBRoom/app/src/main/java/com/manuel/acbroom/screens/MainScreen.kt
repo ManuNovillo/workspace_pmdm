@@ -53,7 +53,6 @@ import com.manuel.acbroom.viewmodel.MainViewModel
 
 @Composable
 fun MainScreen(navController: NavHostController, viewModel: MainViewModel) {
-
     val texto = remember { mutableStateOf("") }
     Scaffold(
         topBar = { MainTopBar(viewModel, texto) },
@@ -83,7 +82,6 @@ fun MainTopBar(viewModel: MainViewModel, texto: MutableState<String>) {
                         .clickable {
                             viewModel.changeIcono()
                         },
-
                 )
             }
         },
@@ -110,7 +108,7 @@ fun SearchView(
             .border(2.dp, Color.DarkGray, RoundedCornerShape(20.dp)),
         maxLines = 1,
         singleLine = true,
-        leadingIcon = {Icon(Icons.Filled.Search, contentDescription = "lupa")},
+        leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "lupa") },
         placeholder = {
             Text(
                 text = "Buscar jugador...",
@@ -125,7 +123,8 @@ fun MainContent(
     padding: PaddingValues,
     viewModel: MainViewModel,
     texto: MutableState<String>,
-    navController: NavHostController) {
+    navController: NavHostController
+) {
     val jugadoresConEquipo = viewModel.jugadoresConEquipo
     val isPlayer by viewModel.isPlayer
     Column(
@@ -148,7 +147,11 @@ fun MainContent(
 }
 
 @Composable
-fun MainJugadorCard(jugadorConEquipo: JugadorConEquipo, viewModel: MainViewModel, navController: NavHostController) {
+fun MainJugadorCard(
+    jugadorConEquipo: JugadorConEquipo,
+    viewModel: MainViewModel,
+    navController: NavHostController
+) {
     Card(
         modifier = Modifier
             .height(150.dp)

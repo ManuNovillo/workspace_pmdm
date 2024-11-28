@@ -1,13 +1,13 @@
-package com.manuel.pueblosbonitos.view.navigation
+package com.manuel.pueblosbonitos.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.manuel.pueblosbonitos.view.MainActivity
-import com.manuel.pueblosbonitos.view.screens.MainScreen
-import com.manuel.pueblosbonitos.view.screens.PuebloDetailScreen
-import com.manuel.pueblosbonitos.view.screens.PueblosScreen
+import com.manuel.pueblosbonitos.screens.MainScreen
+import com.manuel.pueblosbonitos.screens.PuebloDetailScreen
+import com.manuel.pueblosbonitos.screens.PueblosScreen
 import com.manuel.pueblosbonitos.viewmodel.MainViewModel
 
 @Composable

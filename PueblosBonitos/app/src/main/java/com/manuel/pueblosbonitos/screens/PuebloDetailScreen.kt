@@ -1,4 +1,4 @@
-package com.manuel.pueblosbonitos.view.screens
+package com.manuel.pueblosbonitos.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -23,12 +23,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.manuel.pueblosbonitos.ui.theme.AzulClaroFondo
-import com.manuel.pueblosbonitos.ui.theme.MoradoFondo
+import com.manuel.pueblosbonitos.R
 import com.manuel.pueblosbonitos.viewmodel.MainViewModel
 
 @Composable
@@ -82,7 +81,7 @@ fun PuebloDetailTopBar(viewModel: MainViewModel) {
     TopAppBar(
         title = { Text(text = puebloDetail.pueblo.nombre) },
         colors = topAppBarColors(
-            containerColor = MoradoFondo,
+            containerColor = colorResource(R.color.purple_700),
             titleContentColor = Color.White
         )
     )
@@ -94,7 +93,7 @@ fun PuebloDetailContent(padding: PaddingValues, viewModel: MainViewModel) {
     val nombreComunidad by viewModel.nombreComunidad
     Column(
         modifier = Modifier
-            .background(AzulClaroFondo)
+            .background(colorResource(R.color.azulClaroFondo))
             .fillMaxSize()
             .padding(padding)
     ) {
@@ -111,7 +110,7 @@ fun PuebloDetailContent(padding: PaddingValues, viewModel: MainViewModel) {
             text = puebloDetail!!.pueblo.nombre,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MoradoFondo),
+                .background(colorResource(R.color.purple_700)),
             color = Color.White,
             textAlign = TextAlign.Center
         )
@@ -125,6 +124,5 @@ fun PuebloDetailContent(padding: PaddingValues, viewModel: MainViewModel) {
             textAlign = TextAlign.Center
         )
     }
-
 }
 
