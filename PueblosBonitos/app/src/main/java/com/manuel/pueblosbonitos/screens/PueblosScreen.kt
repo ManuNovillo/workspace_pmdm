@@ -1,11 +1,6 @@
 package com.manuel.pueblosbonitos.screens
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.expandHorizontally
-import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,9 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Search
@@ -36,7 +29,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
@@ -44,14 +36,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -110,7 +98,7 @@ fun PueblosBotonFlotante(viewModel: MainViewModel) {
 @Composable
 fun PueblosTopBar(viewModel: MainViewModel) {
     val nombreComunidad by viewModel.nombreComunidad
-    val visible by viewModel.showFilter
+    val textFieldVisible by viewModel.showFilter
     val texto = remember { mutableStateOf(TextFieldValue("")) }
     CenterAlignedTopAppBar(
         title = {
@@ -121,39 +109,25 @@ fun PueblosTopBar(viewModel: MainViewModel) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-//                val density = LocalDensity.current
-//                AnimatedVisibility(
-//                    visible = !visible,
-//                    enter = expandHorizontally {
-//                        with(density) { -5.dp.roundToPx() }
-//                    },
-//                    exit = shrinkHorizontally {
-//                        with(density) { 5.dp.roundToPx() }
-//                    }
-//                ) {
-                Text(
-                    text = nombreComunidad,
-                    modifier = Modifier
-                        .weight(1f)
-                        .alpha(0f),
-//                        .background(Color.Green),
-                   // textAlign = TextAlign.Center,
-                )
-//                }
-
+                if (!textFieldVisible) {
+                    Text(
+                        text = nombreComunidad,
+                        modifier = Modifier
+                            .weight(1f),
+                    )
+                }
                 Column(
                     modifier = Modifier
-                        .weight(1f),
-//                        .background(Color.Red)
+                        .weight(if (!textFieldVisible) 0.5f else 2f),
                 ) {
-                    SearchView(texto, visible)
+                    if (textFieldVisible)
+                        SearchView(texto)
                 }
 
                 Icon(
-                    imageVector = if (!visible) Icons.Rounded.Search else Icons.Rounded.Close,
+                    imageVector = if (!textFieldVisible) Icons.Rounded.Search else Icons.Rounded.Close,
                     contentDescription = "buscar",
                     modifier = Modifier
-                        .weight(1f)
                         .size(30.dp)
                         .clickable {
                             viewModel.toggleFilter()
@@ -169,41 +143,30 @@ fun PueblosTopBar(viewModel: MainViewModel) {
 }
 
 @Composable
-fun SearchView(texto: MutableState<TextFieldValue>, visible: Boolean) {
-    val density = LocalDensity.current
-    AnimatedVisibility(
-        visible = visible,
-        enter = expandHorizontally {
-            with(density) { -5.dp.roundToPx() }
+fun SearchView(texto: MutableState<TextFieldValue>) {
+    TextField(
+        value = texto.value,
+        onValueChange = { valor ->
+            texto.value = valor
         },
-        exit = shrinkHorizontally {
-            with(density) { 5.dp.roundToPx() }
+        modifier = Modifier
+            .clip(RoundedCornerShape(20.dp)),
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = colorResource(R.color.purple_700),
+            unfocusedContainerColor = colorResource(R.color.purple_700),
+            unfocusedTextColor = Color.White,
+            focusedTextColor = Color.White,
+        ),
+        maxLines = 1,
+        singleLine = true,
+        placeholder = {
+            Text(
+                text = "Buscar pueblo...",
+                fontSize = 20.sp,
+                color = Color.LightGray
+            )
         }
-    ) {
-        TextField(
-            value = texto.value,
-            onValueChange = { valor ->
-                texto.value = valor
-            },
-            modifier = Modifier
-                .clip(RoundedCornerShape(20.dp)),
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = colorResource(R.color.purple_700),
-                unfocusedContainerColor = colorResource(R.color.purple_700),
-                unfocusedTextColor = Color.White,
-                focusedTextColor = Color.White,
-            ),
-            maxLines = 1,
-            singleLine = true,
-            placeholder = {
-                Text(
-                    text = "Buscar pueblo...",
-                    fontSize = 20.sp,
-                    color = Color.LightGray
-                )
-            }
-        )
-    }
+    )
 }
 
 @Composable
@@ -214,6 +177,7 @@ fun PueblosContent(
 ) {
     val pueblosConProvincia = viewModel.pueblosConProvincia
     val mostrarSoloFavoritos = viewModel.mostrarSoloFavoritos
+    val cosa = remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
