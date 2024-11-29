@@ -21,18 +21,21 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     val esFavorito = mutableStateOf(false)
     val nombreComunidad = mutableStateOf("")
 
+    private val puebloViewModel: PuebloViewModel = ViewModelProvider(mainActivity)[PuebloViewModel::class]
+
     init {
         Util.inyecta(mainActivity, "pueblosbonitos.sqlite")
         val comunidadViewModel = ViewModelProvider(mainActivity)[ComunidadViewModel::class.java]
         comunidadViewModel.getAllComunidades().observe(mainActivity) { comunidadesDatos ->
             comunidades.addAll(comunidadesDatos)
         }
+
     }
 
     fun prepararPueblosScreen(comunidad: Comunidad) {
         mostrarSoloFavoritos.value = false
         nombreComunidad.value = comunidad.nombre
-        val puebloViewModel = ViewModelProvider(mainActivity)[PuebloViewModel::class.java]
+//        val puebloViewModel = ViewModelProvider(mainActivity)[PuebloViewModel::class]
         puebloViewModel.getAllPueblosByComunidad(comunidad.id).observe(mainActivity) { pueblosDatos ->
             pueblosConProvincia.clear()
             pueblosConProvincia.addAll(pueblosDatos)
@@ -52,7 +55,7 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     fun updatePueblo(pueblo: Pueblo) {
         pueblo.fav = if (pueblo.fav == 1) 0 else 1
         esFavorito.value = pueblo.fav == 1
-        val puebloViewModel = ViewModelProvider(mainActivity)[PuebloViewModel::class.java]
+//        val puebloViewModel = ViewModelProvider(mainActivity)[PuebloViewModel::class]
         puebloViewModel.updatePueblo(pueblo)
     }
 

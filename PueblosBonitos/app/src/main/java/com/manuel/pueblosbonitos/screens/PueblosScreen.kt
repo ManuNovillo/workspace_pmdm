@@ -1,5 +1,6 @@
 package com.manuel.pueblosbonitos.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -54,8 +55,11 @@ import com.manuel.pueblosbonitos.viewmodel.MainViewModel
 
 @Composable
 fun PueblosScreen(navController: NavHostController, viewModel: MainViewModel) {
+    val texto = remember { mutableStateOf(TextFieldValue("")) }
+    Log.d("MANU", "AQUI")
+    Log.d("MANU", viewModel.pueblosConProvincia[0].provincia.nombre)
     Scaffold(
-        topBar = { PueblosTopBar(viewModel) },
+        topBar = { PueblosTopBar(texto, viewModel) },
         floatingActionButtonPosition = FabPosition.EndOverlay,
         floatingActionButton = {
             PueblosBotonFlotante(viewModel)
@@ -63,6 +67,7 @@ fun PueblosScreen(navController: NavHostController, viewModel: MainViewModel) {
         content = { padding ->
             PueblosContent(
                 padding = padding,
+                texto = texto,
                 viewModel = viewModel,
                 navController = navController
             )
@@ -96,10 +101,9 @@ fun PueblosBotonFlotante(viewModel: MainViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PueblosTopBar(viewModel: MainViewModel) {
+fun PueblosTopBar(texto: MutableState<TextFieldValue>, viewModel: MainViewModel) {
     val nombreComunidad by viewModel.nombreComunidad
     val textFieldVisible by viewModel.showFilter
-    val texto = remember { mutableStateOf(TextFieldValue("")) }
     CenterAlignedTopAppBar(
         title = {
             Row(
@@ -172,12 +176,12 @@ fun SearchView(texto: MutableState<TextFieldValue>) {
 @Composable
 fun PueblosContent(
     padding: PaddingValues,
+    texto: MutableState<TextFieldValue>,
     viewModel: MainViewModel,
     navController: NavHostController
 ) {
     val pueblosConProvincia = viewModel.pueblosConProvincia
     val mostrarSoloFavoritos = viewModel.mostrarSoloFavoritos
-    val cosa = remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -187,11 +191,11 @@ fun PueblosContent(
     ) {
         LazyColumn {
             if (mostrarSoloFavoritos.value) {
-                items(pueblosConProvincia.filter { it.pueblo.fav == 1 }) { pueblo ->
+                items(pueblosConProvincia.filter { it.pueblo.fav == 1 && it.provincia.nombre.contains(texto.value.text, ignoreCase = true)}) { pueblo ->
                     PueblosCard(pueblo, viewModel, navController)
                 }
             } else {
-                items(pueblosConProvincia) { pueblo ->
+                items(pueblosConProvincia.filter { it.provincia.nombre.contains(texto.value.text, ignoreCase = true)}) { pueblo ->
                     PueblosCard(pueblo, viewModel, navController)
                 }
             }
