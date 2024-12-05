@@ -33,12 +33,11 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     }
 
     fun prepararPueblosScreen(comunidad: Comunidad) {
+        pueblosConProvincia.clear()
         mostrarSoloFavoritos.value = false
         nombreComunidad.value = comunidad.nombre
-//        val puebloViewModel = ViewModelProvider(mainActivity)[PuebloViewModel::class]
         puebloViewModel.getAllPueblosByComunidad(comunidad.id).observe(mainActivity) { pueblosDatos ->
-            pueblosConProvincia.clear()
-            pueblosConProvincia.addAll(pueblosDatos)
+            if (pueblosConProvincia.isEmpty()) pueblosConProvincia.addAll(pueblosDatos)
         }
     }
 
