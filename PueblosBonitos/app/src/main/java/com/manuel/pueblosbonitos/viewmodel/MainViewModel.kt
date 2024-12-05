@@ -1,5 +1,6 @@
 package com.manuel.pueblosbonitos.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -37,6 +38,10 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
         nombreComunidad.value = comunidad.nombre
         puebloViewModel.getAllPueblosByComunidad(comunidad.id).observe(mainActivity) { pueblosDatos ->
             pueblosConProvincia.clear()
+            Log.d("MANU", "DENTRO")
+            pueblosDatos.forEach {
+                Log.d("MANU", it.provincia.nombre)
+            }
             pueblosConProvincia.addAll(pueblosDatos)
         }
     }
