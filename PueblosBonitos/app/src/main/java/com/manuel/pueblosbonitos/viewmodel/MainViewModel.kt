@@ -33,11 +33,11 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     }
 
     fun prepararPueblosScreen(comunidad: Comunidad) {
-        pueblosConProvincia.clear()
         mostrarSoloFavoritos.value = false
         nombreComunidad.value = comunidad.nombre
         puebloViewModel.getAllPueblosByComunidad(comunidad.id).observe(mainActivity) { pueblosDatos ->
-            if (pueblosConProvincia.isEmpty()) pueblosConProvincia.addAll(pueblosDatos)
+            pueblosConProvincia.clear()
+            pueblosConProvincia.addAll(pueblosDatos)
         }
     }
 
@@ -54,7 +54,6 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     fun updatePueblo(pueblo: Pueblo) {
         pueblo.fav = if (pueblo.fav == 1) 0 else 1
         esFavorito.value = pueblo.fav == 1
-//        val puebloViewModel = ViewModelProvider(mainActivity)[PuebloViewModel::class]
         puebloViewModel.updatePueblo(pueblo)
     }
 

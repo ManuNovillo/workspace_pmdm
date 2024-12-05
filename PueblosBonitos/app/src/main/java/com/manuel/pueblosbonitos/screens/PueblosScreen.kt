@@ -1,6 +1,5 @@
 package com.manuel.pueblosbonitos.screens
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -56,8 +55,6 @@ import com.manuel.pueblosbonitos.viewmodel.MainViewModel
 @Composable
 fun PueblosScreen(navController: NavHostController, viewModel: MainViewModel) {
     val texto = remember { mutableStateOf(TextFieldValue("")) }
-    Log.d("MANU", "AQUI")
-    Log.d("MANU", viewModel.pueblosConProvincia[0].provincia.nombre)
     Scaffold(
         topBar = { PueblosTopBar(texto, viewModel) },
         floatingActionButtonPosition = FabPosition.EndOverlay,

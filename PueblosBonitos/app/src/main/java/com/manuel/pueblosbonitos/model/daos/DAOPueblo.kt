@@ -3,12 +3,14 @@ package com.manuel.pueblosbonitos.model.daos
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.manuel.pueblosbonitos.model.entities.Pueblo
 import com.manuel.pueblosbonitos.model.entities.PuebloConProvincia
 
 @Dao
 interface DAOPueblo {
+    @Transaction
     @Query("""SELECT * 
               FROM Pueblo pu
               WHERE pu.provincia IN (
