@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.manuel.pueblosbonitos.R
 import com.manuel.pueblosbonitos.model.entities.Comunidad
+import com.manuel.pueblosbonitos.navigation.AppScreens
 import com.manuel.pueblosbonitos.viewmodel.MainViewModel
 
 @Composable
@@ -87,7 +88,7 @@ fun MainCardComunidad(
         ),
         onClick = {
             viewModel.prepararPueblosScreen(comunidad)
-            navController.navigate("PueblosScreen")
+            navController.navigate(AppScreens.PueblosScreen.route)
         }
     ) {
         Row(

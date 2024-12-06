@@ -5,7 +5,6 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.manuel.pueblosbonitos.model.daos.DAOComunidad
-import com.manuel.pueblosbonitos.model.daos.DAOProvincia
 import com.manuel.pueblosbonitos.model.daos.DAOPueblo
 import com.manuel.pueblosbonitos.model.entities.Comunidad
 import com.manuel.pueblosbonitos.model.entities.Provincia
@@ -18,7 +17,6 @@ import com.manuel.pueblosbonitos.model.entities.Pueblo
 )
 abstract class PueblosBonitosDB : RoomDatabase() {
     abstract fun daoComunidad(): DAOComunidad
-    abstract fun daoProvincia(): DAOProvincia
     abstract fun daoPueblo(): DAOPueblo
 
     companion object {

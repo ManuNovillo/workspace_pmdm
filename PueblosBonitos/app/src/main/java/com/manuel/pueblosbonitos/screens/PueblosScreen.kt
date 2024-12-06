@@ -50,6 +50,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.manuel.pueblosbonitos.R
 import com.manuel.pueblosbonitos.model.entities.PuebloConProvincia
+import com.manuel.pueblosbonitos.navigation.AppScreens
 import com.manuel.pueblosbonitos.viewmodel.MainViewModel
 
 @Composable
@@ -215,7 +216,7 @@ fun PueblosCard(
         ),
         onClick = {
             viewModel.prepararPuebloDetailScreen(puebloConProvincia)
-            navController.navigate("PuebloDetailScreen")
+            navController.navigate(AppScreens.PuebloDetailScreen.route)
         }
     ) {
         Row(

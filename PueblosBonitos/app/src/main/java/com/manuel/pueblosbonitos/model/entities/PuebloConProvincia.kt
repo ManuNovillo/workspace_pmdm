@@ -11,3 +11,4 @@ data class PuebloConProvincia(
     )
     val provincia: Provincia
 )
+

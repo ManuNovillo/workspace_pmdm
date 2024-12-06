@@ -1,6 +1,7 @@
 package com.manuel.pueblosbonitos.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,12 +27,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.manuel.pueblosbonitos.R
+import com.manuel.pueblosbonitos.navigation.AppScreens
 import com.manuel.pueblosbonitos.viewmodel.MainViewModel
 
 @Composable
-fun PuebloDetailScreen(viewModel: MainViewModel) {
+fun PuebloDetailScreen(navController: NavHostController, viewModel: MainViewModel) {
     Scaffold(
         topBar = { PuebloDetailTopBar(viewModel) },
         floatingActionButtonPosition = FabPosition.EndOverlay,
@@ -40,8 +43,9 @@ fun PuebloDetailScreen(viewModel: MainViewModel) {
         },
         content = { padding ->
             PuebloDetailContent(
-                padding = padding,
-                viewModel = viewModel
+                padding,
+                viewModel,
+                navController
             )
         }
     )
@@ -59,19 +63,18 @@ fun PuebloDetailBotonFlotante(viewModel: MainViewModel) {
         shape = CircleShape,
     ) {
         Icon(
-            imageVector =  Icons.Filled.Star, "Botón de favoritos",
+            imageVector = Icons.Filled.Star, "Botón de favoritos",
             modifier = Modifier
                 .background(Color.Black)
                 .padding(1.dp),
             tint =
-                if (esFavorito.value)
-                    Color.Yellow
-                else
-                    Color.White
+            if (esFavorito.value)
+                Color.Yellow
+            else
+                Color.White
         )
     }
 }
-
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -88,7 +91,11 @@ fun PuebloDetailTopBar(viewModel: MainViewModel) {
 }
 
 @Composable
-fun PuebloDetailContent(padding: PaddingValues, viewModel: MainViewModel) {
+fun PuebloDetailContent(
+    padding: PaddingValues,
+    viewModel: MainViewModel,
+    navController: NavHostController
+) {
     val puebloDetail by viewModel.puebloDetail
     val nombreComunidad by viewModel.nombreComunidad
     Column(
@@ -120,6 +127,17 @@ fun PuebloDetailContent(padding: PaddingValues, viewModel: MainViewModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 15.dp),
+            color = Color.Blue,
+            textAlign = TextAlign.Center
+        )
+
+        Text(
+            text = "más...",
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    navController.navigate(AppScreens.WebPuebloScreen.route)
+                },
             color = Color.Blue,
             textAlign = TextAlign.Center
         )
