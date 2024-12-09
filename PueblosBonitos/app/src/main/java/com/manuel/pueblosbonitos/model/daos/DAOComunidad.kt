@@ -7,7 +7,6 @@ import com.manuel.pueblosbonitos.model.entities.Comunidad
 
 @Dao
 interface DAOComunidad {
-
     @Query("SELECT * FROM comunidad")
     fun getAllComunidades(): LiveData<List<Comunidad>>
 }
