@@ -6,8 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.manuel.pueblosbonitos.ui.theme.PueblosBonitosTheme
 import com.manuel.pueblosbonitos.navigation.AppNavigation
-import com.manuel.pueblosbonitos.screens.MainScreen
-import com.manuel.pueblosbonitos.viewmodel.MainViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -2,11 +2,10 @@ package net.azarquiel.examenmanuelnovillo.model
 
 import android.app.Application
 
-class ComunidadRepository(application: Application) {
+class CostaRepository(application: Application) {
 
-//    val daoComunidad = PueblosBonitosDB.getDatabase(application).daoComunidad()
-//
-//    fun getAllComunidades() = daoComunidad.getAllComunidades()
-//
-//    fun updatePueblo(pueblo: Pueblo)
+    val daoCosta = PlayasDB.getDatabase(application).daoCosta()
+
+    fun getAllCostas() = daoCosta.getAllCostas()
+
 }

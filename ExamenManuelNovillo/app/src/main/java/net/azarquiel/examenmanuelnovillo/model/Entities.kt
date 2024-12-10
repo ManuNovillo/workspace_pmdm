@@ -6,27 +6,42 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import androidx.room.Relation
 
-//data class PuebloConProvincia(
-//    @Embedded val pueblo: Pueblo,
-//    @Relation(
-//        parentColumn = "provincia",
-//        entityColumn = "id"
-//    )
-//    val provincia: Provincia
-//)
+@Entity(
+    tableName = "costa",
+)
+data class Costa(
+    @PrimaryKey
+    var id: Int = 0,
+    var nombre: String = "",
+    var imagen: String = "",
+    var descripcion: String = ""
 
-//@Entity(
-//    tableName = "provincia",
-//    foreignKeys = [
-//        ForeignKey(
-//            entity = Comunidad::class,
-//            parentColumns = ["id"],
-//            childColumns = ["comunidad"])
-//    ]
-//)
-//data class Provincia(
-//    @PrimaryKey
-//    var id: Int,
-//    var nombre: String = "",
-//    var comunidad: Int = 0
-//)
+)
+
+@Entity(
+    tableName = "playa",
+    foreignKeys = [
+        ForeignKey(
+            entity = Costa::class,
+            parentColumns = ["id"],
+            childColumns = ["costa"]
+        )]
+)
+data class Playa(
+    @PrimaryKey
+    var id: Int,
+    var costa: Int = 0,
+    var azul: Int = 0,
+    var imagen: String = "",
+    var nombre: String = ""
+
+)
+
+data class CostaConPlayas(
+    @Embedded val costa: Costa,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "costa"
+    )
+    val playas: List<Playa>
+)
