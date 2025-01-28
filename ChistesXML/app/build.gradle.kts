@@ -65,5 +65,4 @@ dependencies {
 // Picasso
     implementation("com.squareup.picasso:picasso:2.71828")
 // probar coroutines con version 1.10.1 en vez de 1.8.1 con proyecto nuevo
-
 }
