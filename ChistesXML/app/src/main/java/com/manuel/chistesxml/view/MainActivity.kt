@@ -1,21 +1,22 @@
-package com.manuel.chistesxml
+package com.manuel.chistesxml.view
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.manuel.chistesxml.R
+import com.manuel.chistesxml.adapters.CustomAdapter
 import com.manuel.chistesxml.databinding.ActivityMainBinding
+import com.manuel.chistesxml.viewmodel.DataViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-
+    private lateinit var adapter: CustomAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -23,6 +24,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
+        initRV()
+        val viewModel = ViewModelProvider(this)[DataViewModel::class.java]
+        viewModel.getCategorias().observe(this) { categoria ->
+            categoria?.let {
+                adapter.setCategorias(it)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -39,5 +47,11 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun initRV() {
+        adapter = CustomAdapter(this, R.layout.row_categoria)
+        binding.cm.categoriasRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.cm.categoriasRecyclerView.adapter = adapter
     }
 }

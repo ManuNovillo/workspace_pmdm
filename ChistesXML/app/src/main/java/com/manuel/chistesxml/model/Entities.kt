@@ -1,45 +1,41 @@
 package com.manuel.chistesxml.model
 
-import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class Chiste(
-    val id: String,
-    @SerializedName("idcategoria")
-    val idCategoria: String,
-    val contenido: String,
-): Serializable
-
-data class Categoria(
-    val id: String,
-    val nombre: String,
-): Serializable
-
 data class Usuario (
-    @SerializedName("idusuario")
-    var id: Int,
+    var id: String,
     var nick: String,
     var pass: String
+): Serializable // para poder pasarlo entre paginas (mete saca)
+
+
+data class Categoria ( //data class solo tienen datos no tienen método más alla de setter y getter
+    var id: String,
+    var nombre: String
 ): Serializable
 
-data class Puntos (
-    var id: Int,
-    var idusuario: Int,
-    var idbar: Int,
-    var puntos: Int
+
+data class Punto (
+    var id: String,
+    var idchiste: String,
+    var puntos: String
 ): Serializable
 
-data class Punto(
-    val id: String,
-    @SerializedName("idchiste")
-    val idChiste: String,
-)
 
-data class Result(
+
+
+data class Chiste ( //data class solo tienen datos no tienen método más alla de setter y getter
+    var id: String,
+    var idcategoria: String,
+    var contenido: String
+): Serializable
+
+
+data class Result( //clase grande que tiene una lista de categorias y chistes  (se declara todos los json grandes de la api)
     val categorias: List<Categoria>,
     val chistes: List<Chiste>,
     val usuario: Usuario,
-    val avg: Int,
     val chiste: Chiste,
-    val puntos: Puntos
-): Serializable
+    val punto: Punto,
+    val avg:String
+)
