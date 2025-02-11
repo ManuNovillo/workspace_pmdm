@@ -21,9 +21,6 @@ data class Punto (
     var puntos: String
 ): Serializable
 
-
-
-
 data class Chiste ( //data class solo tienen datos no tienen método más alla de setter y getter
     var id: String,
     var idcategoria: String,

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.manuel.chistesxml.model.Categoria
 import com.manuel.chistesxml.model.Chiste
+import com.manuel.chistesxml.model.Punto
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -29,6 +30,14 @@ class DataViewModel : ViewModel() {
        return chisteResponse
    }
 
+    fun savePuntos(idchiste:String, punto:Punto):MutableLiveData<Punto> {
+        val puntoResponse= MutableLiveData<Punto>()
+        GlobalScope.launch(Main) {
+            puntoResponse.value = repository.savePuntos(idchiste,punto)
+        }
+        return puntoResponse
+    }
+
    fun getChistesByCategoria(idCategoria: String):MutableLiveData<List<Chiste>> {
        val chistes = MutableLiveData<List<Chiste>>()
        GlobalScope.launch(Main) {
@@ -36,6 +45,14 @@ class DataViewModel : ViewModel() {
        }
        return chistes
    }
+
+    fun getAvgChiste(idChiste: String):MutableLiveData<String> {
+        val avg = MutableLiveData<String>()
+        GlobalScope.launch(Main) {
+            avg.value = repository.getAvgPuntos(idChiste)
+        }
+        return avg
+    }
 }
 
 

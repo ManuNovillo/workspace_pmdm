@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.manuel.chistesxml.R
-import com.manuel.chistesxml.model.Categoria
 import com.manuel.chistesxml.model.Chiste
 import com.squareup.picasso.Picasso
 
@@ -40,12 +39,16 @@ class CustomAdapterChistes(val context: Context,
 
     class ViewHolder(viewlayout: View, val context: Context) : RecyclerView.ViewHolder(viewlayout) {
         fun bind(dataItem: Chiste){
-            val categoriasCellImage: ImageView = itemView.findViewById(R.id.categoriasCellImage)
-            val categoriasCellText: TextView = itemView.findViewById(R.id.categoriasCellText)
-            categoriasCellText.text = dataItem.nombre
+            val chistesCellImage: ImageView = itemView.findViewById(R.id.chistesCellImage)
+            val chistesCellText : TextView = itemView.findViewById(R.id.chistesCellText)
+            chistesCellText.text =
+                if (dataItem.contenido.length > 20)
+                    dataItem.contenido.substring(0, 10)
+                else
+                    dataItem.contenido
             Picasso.get()
-                .load("http://www.ies-azarquiel.es/paco/apichistes/img/${dataItem.id}.png")
-                .into(categoriasCellImage)
+                .load("http://www.ies-azarquiel.es/paco/apichistes/img/${dataItem.idcategoria}.png")
+                .into(chistesCellImage)
             itemView.tag = dataItem
         }
     }

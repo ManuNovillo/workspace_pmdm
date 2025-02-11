@@ -72,8 +72,7 @@ class MainRepository() {
     }
 
 
-    suspend fun savePuntos(idchiste: Int, punto: Punto): Punto? { //chiste que se inserta
-
+    suspend fun savePuntos(idchiste: String, punto: Punto): Punto? {
 
         val webResponse = service.savePuntos(idchiste, punto)
             .await() //le pasamos parametro que nos ha dado (chiste a insertar)

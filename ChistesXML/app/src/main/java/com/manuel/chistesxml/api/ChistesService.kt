@@ -19,13 +19,11 @@ interface ChistesService {
     fun getCategorias(): Deferred<Response<Result>> //devuelve un json con todas las categorias
     // (que esos datos estan en un objeto result), livedata con corrutina
 
-
     //vienen en la propia URL
     // variable idbar en la ruta de la url => @Path
     //obtiene los chistes, en la propia url le damos el id de la categoria y eso luego se declara abajo
     @GET("categoria/{idcategoria}/chistes")
     fun getChistesByCategoria(@Path("idcategoria") idcategoria: String): Deferred<Response<Result>> // {idcategoria} @ path porque viene en la URL
-
 
     //para hacer login
     //variables sueltas por get
@@ -37,27 +35,22 @@ interface ChistesService {
         @Query("pass") pass: String
     ): Deferred<Response<Result>>
 
-
     // post con objeto => @Body, cuando los datos van todos juntos como un objeto @Body
     @POST("usuario")
     fun saveUsuario(@Body usuario: Usuario): Deferred<Response<Result>>
-
 
     // post con objeto => @Body, cuando los datos van todos juntos como un objeto @Body
     @POST("chiste")
     fun saveChiste(@Body chiste: Chiste): Deferred<Response<Result>>
 
-
     @GET("chiste/{idchiste}/avgpuntos")
     fun getAvgPuntos(@Path("idchiste") idchiste: String): Deferred<Response<Result>>
 
-
     //variables sueltas por post @Field FIJARSE EN COMO ESTA PUNTOS EN LA DB
     // post con variables sueltas => @Field y Obligatorio @FormUrlEncoded
-    @FormUrlEncoded
     @POST("chiste/{idchiste}/punto")
     fun savePuntos(
-        @Path("idchiste") idchiste: Int,
+        @Path("idchiste") idchiste: String,
         @Body punto: Punto
     ): Deferred<Response<Result>>
 }
