@@ -9,13 +9,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.manuel.chistesxml.R
 import com.manuel.chistesxml.model.Categoria
+import com.manuel.chistesxml.model.Chiste
 import com.squareup.picasso.Picasso
 
-class CustomAdapter(val context: Context,
+class CustomAdapterChistes(val context: Context,
                     val layout: Int
-                    ) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<CustomAdapterChistes.ViewHolder>() {
 
-    private var dataList: List<Categoria> = emptyList()
+    private var dataList: List<Chiste> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -32,13 +33,13 @@ class CustomAdapter(val context: Context,
         return dataList.size
     }
 
-    internal fun setCategorias(categorias: List<Categoria>) {
-        this.dataList = categorias
+    internal fun setChistes(chistes: List<Chiste>) {
+        this.dataList = chistes
         notifyDataSetChanged()
     }
 
     class ViewHolder(viewlayout: View, val context: Context) : RecyclerView.ViewHolder(viewlayout) {
-        fun bind(dataItem: Categoria){
+        fun bind(dataItem: Chiste){
             val categoriasCellImage: ImageView = itemView.findViewById(R.id.categoriasCellImage)
             val categoriasCellText: TextView = itemView.findViewById(R.id.categoriasCellText)
             categoriasCellText.text = dataItem.nombre

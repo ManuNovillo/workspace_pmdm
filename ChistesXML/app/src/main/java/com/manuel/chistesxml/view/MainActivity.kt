@@ -1,15 +1,18 @@
 package com.manuel.chistesxml.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.AppBarConfiguration
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.manuel.chistesxml.R
 import com.manuel.chistesxml.adapters.CustomAdapter
 import com.manuel.chistesxml.databinding.ActivityMainBinding
+import com.manuel.chistesxml.model.Categoria
 import com.manuel.chistesxml.viewmodel.DataViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -53,5 +56,12 @@ class MainActivity : AppCompatActivity() {
         adapter = CustomAdapter(this, R.layout.row_categoria)
         binding.cm.categoriasRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.cm.categoriasRecyclerView.adapter = adapter
+    }
+
+    fun onClickCategoria(v: View) {
+        val categoria = v.tag as Categoria
+        val intent = Intent(this, ChistesActivity::class.java)
+        intent.putExtra("categoria", categoria)
+        startActivity(intent)
     }
 }
