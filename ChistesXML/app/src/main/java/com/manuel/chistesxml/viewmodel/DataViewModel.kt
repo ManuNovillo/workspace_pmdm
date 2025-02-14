@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.manuel.chistesxml.model.Categoria
 import com.manuel.chistesxml.model.Chiste
 import com.manuel.chistesxml.model.Punto
+import com.manuel.chistesxml.model.Usuario
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -29,6 +30,23 @@ class DataViewModel : ViewModel() {
        }
        return chisteResponse
    }
+
+    fun getDataUsuarioPorNickPass(nick:String,pass:String): MutableLiveData<Usuario> {
+        val usuario = MutableLiveData<Usuario>()
+        GlobalScope.launch(Main) {
+            usuario.value = repository.getDataUsuarioPorNickPass(nick,pass)
+        }
+        return usuario
+    }
+
+    fun saveUsuario(usuario: Usuario):MutableLiveData<Usuario> {
+        val usuarioResponse= MutableLiveData<Usuario>()
+        GlobalScope.launch(Main) {
+            usuarioResponse.value = repository.saveUsuario(usuario)
+        }
+        return usuarioResponse
+    }
+
 
     fun savePuntos(idchiste:String, punto:Punto):MutableLiveData<Punto> {
         val puntoResponse= MutableLiveData<Punto>()

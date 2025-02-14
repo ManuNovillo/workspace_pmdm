@@ -59,7 +59,7 @@ class DetalleChisteActivity : AppCompatActivity() {
             .load("http://www.ies-azarquiel.es/paco/apichistes/img/${categoria.id}.png")
             .into(categoriaIVDetail)
         categoriaTVDetail.text = categoria.nombre
-        chisteTVDetail.text = Html.fromHtml(chiste.contenido)
+        chisteTVDetail.text = Html.fromHtml("", 3)
     }
 
     fun findView() {

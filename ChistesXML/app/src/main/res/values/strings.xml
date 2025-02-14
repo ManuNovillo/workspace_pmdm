@@ -44,4 +44,5 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="action_user">Usuario</string>
+    <string name="search_title" />
 </resources>
