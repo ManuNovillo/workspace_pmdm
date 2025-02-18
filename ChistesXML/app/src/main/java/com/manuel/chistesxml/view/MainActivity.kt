@@ -152,7 +152,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextChange(query: String): Boolean {
         val original = ArrayList<Categoria>()
-        adapter.setBares(original.filter { bar -> bar.nombrebar.contains(query,true) })
+        adapter.setCategorias(original.filter { categoria -> categoria.nombre.contains(query,true) })
         return false
     }
 
