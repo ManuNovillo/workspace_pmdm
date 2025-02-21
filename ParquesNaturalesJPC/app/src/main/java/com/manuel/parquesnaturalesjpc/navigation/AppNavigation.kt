@@ -22,7 +22,7 @@ fun AppNavigation(viewModel: MainViewModel) {
             ParquesScreen(viewModel, navController)
         }
         composable(AppScreens.DetailScreen.route) {
-            DetailScreen(viewModel, navController)
+            DetailScreen(viewModel)
         }
     }
 }

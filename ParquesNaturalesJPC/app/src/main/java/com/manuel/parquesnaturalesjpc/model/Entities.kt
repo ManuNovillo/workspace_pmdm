@@ -13,7 +13,7 @@ data class Parque(
     val fondo: String,
     val comunidad: Int,
     val descripcion: String,
-    val likes: Int
+    var likes: Int
 )
 
 data class Imagen(

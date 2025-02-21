@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardDefaults.cardColors
@@ -59,7 +60,12 @@ fun ComunidadesContent(
             .padding(padding)
     ) {
         LazyColumn {
-            items(comunidades) { comunidad ->
+            itemsIndexed(comunidades) { i, comunidad ->
+                if (i == 0) {
+                    CardComunidad(
+                        Comunidad(0, "Todos"),
+                        viewModel, navController)
+                }
                 CardComunidad(comunidad, viewModel, navController)
             }
         }

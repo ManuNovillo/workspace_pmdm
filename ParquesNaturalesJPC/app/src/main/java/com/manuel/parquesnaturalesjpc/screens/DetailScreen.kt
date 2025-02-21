@@ -11,40 +11,44 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.fromHtml
-import androidx.navigation.NavHostController
+import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.manuel.parquesnaturalesjpc.R
 import com.manuel.parquesnaturalesjpc.model.Parque
 import com.manuel.parquesnaturalesjpc.viewmodel.MainViewModel
 
+lateinit var likes: MutableIntState
+
 @Composable
-fun DetailScreen(viewModel: MainViewModel, navController: NavHostController) {
-    val likes = remember { mutableIntStateOf(viewModel.parqueSeleccionado.likes) }
+fun DetailScreen(viewModel: MainViewModel) {
+    likes = remember { mutableIntStateOf(viewModel.parqueSeleccionado.likes) }
     Scaffold(
-        topBar = { DetailTopBar(viewModel.parqueSeleccionado, likes) },
-        content = { padding -> DetailContent(viewModel, navController, padding) },
-        floatingActionButton = { DetailFAB(likes) }
+        topBar = { DetailTopBar(viewModel.parqueSeleccionado) },
+        content = { padding -> DetailContent(viewModel, padding) },
+        floatingActionButton = { DetailFAB(viewModel) }
     )
 }
 
 @Composable
-fun DetailFAB(likes: MutableIntState) {
+fun DetailFAB(viewModel: MainViewModel) {
     FloatingActionButton(
         onClick = {
+            viewModel.darLike()
             likes.intValue++
         }
     ) {
@@ -57,10 +61,13 @@ fun DetailFAB(likes: MutableIntState) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailTopBar(parque: Parque, likes: MutableIntState) {
-    TopAppBar(
+fun DetailTopBar(parque: Parque) {
+    CenterAlignedTopAppBar(
         title = {
-            Row {
+            Row(
+                modifier = Modifier
+                    .padding(8.dp)
+            ) {
                 Text(
                     text = parque.nombre,
                     modifier = Modifier
@@ -86,7 +93,6 @@ fun DetailTopBar(parque: Parque, likes: MutableIntState) {
 @Composable
 fun DetailContent(
     viewModel: MainViewModel,
-    navController: NavHostController,
     padding: PaddingValues
 ) {
     val parque = viewModel.parqueSeleccionado
@@ -97,10 +103,13 @@ fun DetailContent(
             .padding(padding)
     ) {
         Text(
-            AnnotatedString.fromHtml(
+            text = AnnotatedString.fromHtml(
                 parque.descripcion,
-            )
+            ),
+            modifier = Modifier
+                .padding(8.dp)
         )
+
         LazyRow {
             items(imagenes) { imagen ->
                 AsyncImage(
@@ -116,12 +125,17 @@ fun DetailContent(
             contentAlignment = Alignment.TopEnd
         ) {
             AsyncImage(
+                modifier = Modifier
+                    .fillMaxWidth(),
                 model = parque.fondo,
-                contentDescription = "Fondo de ${parque.nombre}"
+                contentDescription = "Fondo de ${parque.nombre}",
+                contentScale = ContentScale.Fit
             )
             AsyncImage(
                 model = parque.mapa,
-                contentDescription = "Mapa de ${parque.nombre}"
+                contentDescription = "Mapa de ${parque.nombre}",
+                modifier = Modifier
+                    .padding(8.dp)
             )
         }
     }
