@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "net.azarquiel.retrofit"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "net.azarquiel.retrofit"
@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.runtime.livedata)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -82,4 +83,6 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 // Coil
     implementation("io.coil-kt:coil-compose:2.7.0")
+    implementation("com.google.code.gson:gson:2.11.0")
+
 }

@@ -6,14 +6,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object WebAccess {
 
-   val barService : BarService by lazy {
+   val gafasService : GafasService by lazy {
 
        val retrofit = Retrofit.Builder()
            .addConverterFactory(GsonConverterFactory.create())
            .addCallAdapterFactory(CoroutineCallAdapterFactory())
-           .baseUrl("http://www.ies-azarquiel.es/paco/apibar/")
+           .baseUrl("http://www.ies-azarquiel.es/paco/apigafas/")
            .build()
 
-       retrofit.create(BarService::class.java)
+       retrofit.create(GafasService::class.java)
    }
  }
